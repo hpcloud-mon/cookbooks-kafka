@@ -3,7 +3,7 @@ if node[:kafka][:cluster] == 'localhost'
   id = 0
 else
   include_recipe 'hp_common_functions'
-  servers = normalize(get_data_bag_item('kafka', node[:kafka][:cluster], { :encrypted => false}), {
+  brokers = normalize(get_data_bag_item('kafka', node[:kafka][:cluster], { :encrypted => false}), {
     :brokers => { :required => true, :typeof => Hash, :metadata => {
       :* => { :typeof => Hash, :metadata => {
         :ip => { :required => true, :typeof => String },
