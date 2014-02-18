@@ -39,6 +39,13 @@ directory node[:kafka][:data_dir] do
   action :create
 end
 
+# kafka startup will choke on a lost+found dir in its log dir
+directory "#{node[:kafka][:data_dir]}/lost+found" do
+  owner 'kafka'
+  group 'kafka'
+  action :delete
+end
+
 conf_dir = '/etc/kafka'
 template "#{conf_dir}/server.properties" do
   action :create
