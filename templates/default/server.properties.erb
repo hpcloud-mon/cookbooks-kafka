@@ -11,7 +11,11 @@ port=9092
 # Hostname the broker will bind to and advertise to producers and consumers.
 # If not set, the server will bind to all interfaces and advertise the value returned from
 # from java.net.InetAddress.getCanonicalHostName().
+<% if Chef::Config[:solo] # For chef-solo use the host-internal ip and avoid dns lookup issues -%>
+host.name=<%= node[:network][:interfaces][:eth1][:addresses].select { |key, value| value[:family] == 'inet' }[0][0] %>
+<% else -%>
 #host.name=localhost
+<% end -%>
 
 # The number of threads handling network requests
 num.network.threads=2
