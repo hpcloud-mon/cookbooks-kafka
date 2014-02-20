@@ -47,6 +47,11 @@ directory "#{node[:kafka][:data_dir]}/lost+found" do
 end
 
 conf_dir = '/etc/kafka'
+link conf_dir do
+  to '/opt/kafka/config'
+  action :create
+end
+
 template "#{conf_dir}/server.properties" do
   action :create
   source "server.properties.erb"
