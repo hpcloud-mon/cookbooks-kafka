@@ -38,6 +38,18 @@ Attributes
     <td>Application logging dir</td>
     <td><tt>/var/log/kafka</tt></td>
   </tr>
+  <tr>
+    <td><tt>[:kafka][:topics]</tt></td>
+    <td>Hash</td>
+    <td>A Hash with the key being a topic name and the value a Hash containing :replicas and :partitions</td>
+    <td><tt>{}</tt></td>
+  </tr>
+  <tr>
+    <td><tt>[:kafka][:zookeeper]</tt></td>
+    <td>String</td>
+    <td>The zookeeper url</td>
+    <td><tt>localhost:2181</tt></td>
+  </tr>
 </table>
 
 Data Bags

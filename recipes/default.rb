@@ -52,18 +52,6 @@ link conf_dir do
   action :create
 end
 
-template "#{conf_dir}/server.properties" do
-  action :create
-  source "server.properties.erb"
-  owner "root"
-  group "root"
-  mode 0644
-  variables(
-    :id => id
-  )
-  notifies :restart, "service[kafka]"
-end
-
 template "#{conf_dir}/log4j.properties" do
   action :create
   source "log4j.properties.erb"
@@ -73,3 +61,19 @@ template "#{conf_dir}/log4j.properties" do
   notifies :restart, "service[kafka]"
 end
 
+template "#{conf_dir}/server.properties" do
+  action :create
+  source "server.properties.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  variables(
+    :id => id
+  )
+  notifies :restart, "service[kafka]", :immediately  # kafka must be running for topics to be created
+end
+
+# Only chef solo because the cluster and zookeeper need to be up and logic to ensure that is not yet in place.
+if Chef::Config[:solo]
+  include_recipe 'kafka::create_topics'
+end
