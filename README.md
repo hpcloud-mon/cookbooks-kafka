@@ -33,6 +33,12 @@ Attributes
     <td><tt>/var/kafka</tt></td>
   </tr>
   <tr>
+    <td><tt>[:kafka][:listen_address]</tt></td>
+    <td>String</td>
+    <td>The address for kafka to listen on, without this it listens on eth1 for chef_solo and eth0 otherwise</td>
+    <td><tt>nil</tt></td>
+  </tr>
+  <tr>
     <td><tt>[:kafka][:log_dir]</tt></td>
     <td>String</td>
     <td>Application logging dir</td>

@@ -11,13 +11,17 @@ port=9092
 # Hostname the broker will bind to and advertise to producers and consumers.
 # If not set, the server will bind to all interfaces and advertise the value returned from
 # from java.net.InetAddress.getCanonicalHostName().
-<% if Chef::Config[:solo] # For chef-solo use the host-internal ip and avoid dns lookup issues -%>
+<% if node[:kafka][:listen_address] %>
+host.name=<%= node[:kafka][:listen_address] %>
+<% else -%>
+  <% if Chef::Config[:solo] # For chef-solo use the host-internal ip and avoid dns lookup issues -%>
 host.name=<%=
     # .to_a allows this to work for ruby 1.8 and 1.9+
     node[:network][:interfaces][:eth1][:addresses].select { |key, value| value[:family] == 'inet' }.to_a[0][0]
-  %>
-<% else -%>
-#host.name=localhost
+    %>
+  <% else -%>
+  #host.name=localhost
+  <% end -%>
 <% end -%>
 
 # The number of threads handling network requests
