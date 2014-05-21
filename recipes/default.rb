@@ -64,8 +64,3 @@ template "#{conf_dir}/server.properties" do
   )
   notifies :restart, "service[kafka]", :immediately  # kafka must be running for topics to be created
 end
-
-# Only chef solo because the cluster and zookeeper need to be up and logic to ensure that is not yet in place.
-if Chef::Config[:solo]
-  include_recipe 'kafka::create_topics'
-end

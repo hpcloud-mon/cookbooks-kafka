@@ -70,3 +70,5 @@ can vary based on environment. The data bag contains a servers hash with this fo
 Usage
 -----
 Simply include the kafka default recipe in your role making sure to setup the data bags and attributes as described above.
+
+If you wish to create some topics also include the create_topics recipe
