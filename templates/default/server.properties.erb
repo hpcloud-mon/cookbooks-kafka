@@ -13,15 +13,13 @@ port=9092
 # from java.net.InetAddress.getCanonicalHostName().
 <% if node[:kafka][:listen_address] %>
 host.name=<%= node[:kafka][:listen_address] %>
-<% else -%>
-  <% if Chef::Config[:solo] # For chef-solo use the host-internal ip and avoid dns lookup issues -%>
+<% elsif node[:kafka][:listen_interface] -%>
 host.name=<%=
     # .to_a allows this to work for ruby 1.8 and 1.9+
-    node[:network][:interfaces][:eth1][:addresses].select { |key, value| value[:family] == 'inet' }.to_a[0][0]
+    node[:network][:interfaces][node[:kafka][:listen_interface]][:addresses].select { |key, value| value[:family] == 'inet' }.to_a[0][0]
     %>
-  <% else -%>
-  #host.name=localhost
-  <% end -%>
+<% else -%>
+#host.name=localhost
 <% end -%>
 
 # The number of threads handling network requests

@@ -35,7 +35,13 @@ Attributes
   <tr>
     <td><tt>[:kafka][:listen_address]</tt></td>
     <td>String</td>
-    <td>The address for kafka to listen on, without this it listens on eth1 for chef_solo and eth0 otherwise</td>
+    <td>The address for kafka to listen on, without this it uses the ip of listen_interface or falls back to the kafka default</td>
+    <td><tt>nil</tt></td>
+  </tr>
+  <tr>
+    <td><tt>[:kafka][:listen_interface]</tt></td>
+    <td>String</td>
+    <td>The interface for kafka to listen on, pulls the ip from this interfaces, overridden by listen_address, without either falls back to the kafka default</td>
     <td><tt>nil</tt></td>
   </tr>
   <tr>
