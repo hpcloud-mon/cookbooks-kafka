@@ -1,0 +1,13 @@
+description "Kafka"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+
+limit nofile 32768 32768
+
+setuid <%= node[:kafka][:user] %>
+setgid <%= node[:kafka][:group] %>
+
+exec /opt/kafka/bin/kafka-server-start.sh /etc/kafka/server.properties

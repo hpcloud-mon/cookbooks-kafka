@@ -15,26 +15,53 @@ else
   id = brokers[node[:fqdn]]['id']
 end
 
-# The package depends on java, sets up /var/log/kafka and /etc/kafka, adds a kafka user and group
-package 'kafka' do
-  action :upgrade
+# Install kafka from the binary package
+bash 'chmod +x /opt/kafka/bin/*.sh' do
+  action :nothing
+end
+ark 'kafka' do
+  action :install
+  prefix_home '/opt'
+  prefix_root '/opt'
+  url "http://apache.mesi.com.ar/kafka/#{node[:kafka][:version]}/kafka_2.9.2-#{node[:kafka][:version]}.tgz"
+  version node[:kafka][:version]
+  notifies :run, "bash[chmod +x /opt/kafka/bin/*.sh]"
 end
 
-service "kafka" do
+group node[:kafka][:group] do
+  action :create
+end
+user node[:kafka][:user] do
+  action :create
+  system true
+  gid node[:kafka][:group]
+end
+
+template '/etc/init/kafka.conf' do
+  action :create
+  source 'kafka.conf.erb'
+  owner 'root'
+  group 'root'
+  mode 0644
+end
+
+service 'kafka' do
   action :enable
   provider Chef::Provider::Service::Upstart
 end
 
-directory node[:kafka][:data_dir] do
-  owner 'kafka'
-  group 'kafka'
-  action :create
+[node[:kafka][:data_dir], node[:kafka][:log_dir]].each do |dir|
+  directory dir do
+    owner node[:kafka][:user]
+    group node[:kafka][:group]
+    action :create
+  end
 end
 
-# kafka startup will choke on a lost+found dir in its log dir
+# kafka startup will choke on a lost+found dir in its data dir
 directory "#{node[:kafka][:data_dir]}/lost+found" do
-  owner 'kafka'
-  group 'kafka'
+  owner node[:kafka][:user]
+  group node[:kafka][:group]
   action :delete
 end
 

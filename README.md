@@ -7,7 +7,6 @@ Requirements
 - Zookeeper
 - When a cluster is defined
   - hostsfile needed to modify /etc/hosts
-  - Relies on the get_data* and normalization functions in hp_common_functions
 
 Attributes
 ----------
@@ -27,10 +26,16 @@ Attributes
     <td><tt>localhost</tt></td>
   </tr>
   <tr>
-    <td><tt>[:kafka][data_dir]</tt></td>
+    <td><tt>[:kafka][:data_dir]</tt></td>
     <td>String</td>
     <td>Directory where kafka logs are stored</td>
     <td><tt>/var/kafka</tt></td>
+  </tr>
+  <tr>
+    <td><tt>[:kafka][:group]</tt></td>
+    <td>String</td>
+    <td>Group of the user kafka runs as</td>
+    <td><tt>kafka</tt></td>
   </tr>
   <tr>
     <td><tt>[:kafka][:listen_address]</tt></td>
@@ -55,6 +60,18 @@ Attributes
     <td>Hash</td>
     <td>A Hash with the key being a topic name and the value a Hash containing :replicas and :partitions</td>
     <td><tt>{}</tt></td>
+  </tr>
+  <tr>
+    <td><tt>[:kafka][:user]</tt></td>
+    <td>String</td>
+    <td>user kafka runs as</td>
+    <td><tt>kafka</tt></td>
+  </tr>
+  <tr>
+    <td><tt>[:kafka][:version]</tt></td>
+    <td>String</td>
+    <td>The version of kafka to install</td>
+    <td><tt>0.8.1.1</tt></td>
   </tr>
   <tr>
     <td><tt>[:kafka][:zookeeper]</tt></td>
