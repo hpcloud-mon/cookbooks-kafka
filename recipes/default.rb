@@ -23,7 +23,7 @@ ark 'kafka' do
   action :install
   prefix_home '/opt'
   prefix_root '/opt'
-  url "http://apache.mesi.com.ar/kafka/#{node[:kafka][:version]}/kafka_2.9.2-#{node[:kafka][:version]}.tgz"
+  url "#{node[:ark][:apache_mirror]}/kafka/#{node[:kafka][:version]}/kafka_2.9.2-#{node[:kafka][:version]}.tgz"
   version node[:kafka][:version]
   notifies :run, "bash[chmod +x /opt/kafka/bin/*.sh]"
 end
