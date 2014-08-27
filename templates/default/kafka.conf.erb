@@ -10,4 +10,11 @@ limit nofile 32768 32768
 setuid <%= node[:kafka][:user] %>
 setgid <%= node[:kafka][:group] %>
 
+# If zookeeper is running on this box also give it time to start up properly
+pre-start script
+    if [ -e /etc/init/zookeeper.conf ]; then
+        sleep 5
+    fi
+end script
+
 exec /opt/kafka/bin/kafka-server-start.sh /etc/kafka/server.properties
